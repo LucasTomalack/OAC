@@ -12,9 +12,11 @@ double** inicializaMatrizes(int m){
 
 void preenche(double **M, int m){
   int i,j;
+  unsigned seed = time(NULL);
+
   for(i=0; i<m; i++){
       for(j=0; j<m; j++){
-        M[i][j] = ((double)rand()*MAX_RAND)/(double)(MAX_RAND);
+        M[i][j] = ((double)(rand_r(&seed)%MAX_RAND))/(double)(MAX_RAND);
       }
   }
 }
@@ -74,7 +76,7 @@ void preencheParalelo(double** matriz,int m){
     #pragma omp for
     for(i=0; i<m; i++){
       for(j=0; j<m; j++){
-        matriz[i][j] = ((double)rand_r(&seed)*MAX_RAND)/((double)MAX_RAND);
+        matriz[i][j] = ((double)(rand_r(&seed)%MAX_RAND))/((double)MAX_RAND);
       }
     }
   
