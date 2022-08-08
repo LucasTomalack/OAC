@@ -3,7 +3,11 @@
 #include <time.h>
 #include "omp.h"
 
-void inicializaMatrizes(double **Matriz,int m);
+#define print 0
+#define MAX_RAND 100
+double** inicializaMatrizes(int m);
+
+void preenche(double** matriz, int m);
 
 void quadrado(double **matriz, int m);
 
@@ -12,7 +16,9 @@ void diferenca(double **m1, double **m2, double **m3, int m);
 double soma(double **m3, int m);
 
 // PARALELO
-void inicializaMatrizesParalelo(double **Matriz,int m);
+#define NUM_THREADS 4
+
+void preencheParalelo(double** matriz, int m);
 
 void quadradoParalelo(double **matriz, int m);
 

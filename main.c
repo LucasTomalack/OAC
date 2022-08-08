@@ -1,20 +1,22 @@
 #include "matrix.h"
 
-#define print 0
-#define NUM_THREADS 12
 
-void paralelo(double **A, double **B, double **D, int m){
+void paralelo(int m){
+    double **A, **B, **D;
+    
     double time_start, time_end, time_total;
-
-    omp_set_num_threads(NUM_THREADS);
+    double time_total_m = 0;
+    A = inicializaMatrizes(m);
+    B = inicializaMatrizes(m);
+    D = inicializaMatrizes(m);
 
     time_start = omp_get_wtime();
-    inicializaMatrizesParalelo(A, m);
-    inicializaMatrizesParalelo(B, m);
-    inicializaMatrizesParalelo(D, m);
+    preencheParalelo(A, m);
+    preencheParalelo(B, m);
     time_end = omp_get_wtime();
 
     time_total = time_end - time_start;
+    time_total_m+=time_total;
     printf("Tempo de inicialização: %f\n", time_total);
 
     if(print==1){
@@ -30,6 +32,7 @@ void paralelo(double **A, double **B, double **D, int m){
     time_end = omp_get_wtime();
 
     time_total = time_end - time_start;
+    time_total_m+=time_total;
     printf("Tempo de quadrado: %f\n", time_total);
 
     if(print==1){
@@ -44,6 +47,7 @@ void paralelo(double **A, double **B, double **D, int m){
     time_end = omp_get_wtime();
     
     time_total = time_end - time_start;
+    time_total_m+=time_total;
     printf("Tempo de diferença: %f\n", time_total);
 
     if(print==1){
@@ -55,21 +59,29 @@ void paralelo(double **A, double **B, double **D, int m){
     double soma = somaParalelo(D, m);
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
+    time_total_m+=time_total;
     if(print==1){
         printf("Soma: %.2f\n", soma);
     }
     printf("Tempo de soma: %.2f\n", time_total);
+
+    printf("Tempo total: %.2f\n", time_total_m);
 }
 
-void sequencial(double **A, double **B, double **D, int m){
+void sequencial(int m){
+    double **A, **B, **D; 
     double time_start, time_end, time_total;
+    double time_total_m = 0;
+    A = inicializaMatrizes(m);
+    B = inicializaMatrizes(m);
+    D = inicializaMatrizes(m);
 
     time_start = omp_get_wtime();
-    inicializaMatrizes(A, m);
-    inicializaMatrizes(B, m);
-    inicializaMatrizes(D, m);
+    preenche(A, m);
+    preenche(B, m);
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
+    time_total_m+=time_total;
     printf("Tempo de inicialização: %f\n", time_total);
 
     if(print==1){
@@ -84,6 +96,7 @@ void sequencial(double **A, double **B, double **D, int m){
     quadrado(B, m);
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
+    time_total_m+=time_total;
     printf("Tempo de quadrado: %f\n", time_total);
     
     if(print==1){
@@ -97,6 +110,7 @@ void sequencial(double **A, double **B, double **D, int m){
     diferenca(A, B,D, m);
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
+    time_total_m+=time_total;
     printf("Tempo de diferença: %f\n", time_total);
 
     if(print==1){
@@ -108,36 +122,43 @@ void sequencial(double **A, double **B, double **D, int m){
     double somaV = soma(D, m);
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
+    time_total_m+=time_total;
     if(print){
         printf("\nSoma: %.2f\n", somaV);
     }
     printf("Tempo de soma: %f\n", time_total); 
+
+    printf("Tempo total: %.2f\n", time_total_m);
 }
 
 int main(int argc, char const *argv[]){
-    if(argc != 2){
-        printf("Usage: %s <linhas | colunas>\n", argv[0]);
+    if(argc != 3){
+        printf("Usage: %s <linhas | colunas> <a | s | p>\n", argv[0]);
         return 1;
     }
 
-    srand(time(NULL));
+    srand(clock());
 
-    double **Ap, **Bp, **Dp;
-    double **As, **Bs, **Ds;
     int m= atoi(argv[1]);
-    
-    Ap = (double **) malloc(m * sizeof(double *));
-    Bp = (double **) malloc(m * sizeof(double *));
-    Dp = (double **) malloc(m * sizeof(double *));
 
-    As = (double **) malloc(m * sizeof(double *));
-    Bs = (double **) malloc(m * sizeof(double *));
-    Ds = (double **) malloc(m * sizeof(double *));
-
-    printf("====SEQUENCIAL====\n");
-    sequencial(As, Bs, Ds, m);
-    printf("\n====PARALELO====\n");
-    paralelo(Ap, Bp, Dp, m);
+    if(argv[2][0]=='s'){
+        printf("====SEQUENCIAL====\n");
+        sequencial(m);
+    }
+    else if(argv[2][0]=='p'){
+        printf("====PARALELO====\n");
+        paralelo(m);
+    }
+    else if(argv[2][0]=='a'){
+        printf("====SEQUENCIAL====\n");
+        sequencial(m);
+        printf("====PARALELO====\n");
+        paralelo(m);
+    }
+    else{
+        printf("Usage: %s <linhas | colunas>\n", argv[0]);
+        return 1;
+    }
 
 
 
