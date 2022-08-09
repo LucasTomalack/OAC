@@ -17,9 +17,11 @@ void paralelo(int m){
 
     time_total = time_end - time_start;
     time_total_m+=time_total;
-    printf("Tempo de inicialização: %f\n", time_total);
 
-    if(print==1){
+    if(print>=1)
+        printf("Tempo de inicialização: %f\n", time_total);
+
+    if(print>=2){
         printf("Matriz A:\n");
         printMatriz(A, m);
         printf("\nMatriz B: \n");
@@ -33,9 +35,10 @@ void paralelo(int m){
 
     time_total = time_end - time_start;
     time_total_m+=time_total;
-    printf("Tempo de quadrado: %f\n", time_total);
+    if(print>=1)
+        printf("Tempo de quadrado: %f\n", time_total);
 
-    if(print==1){
+    if(print>=2){
         printf("Matriz A quadrada:\n");
         printMatriz(A, m);
         printf("\nMatriz B quadrada: \n");
@@ -48,9 +51,10 @@ void paralelo(int m){
     
     time_total = time_end - time_start;
     time_total_m+=time_total;
-    printf("Tempo de diferença: %f\n", time_total);
+    if(print>=1)
+        printf("Tempo de diferença: %f\n", time_total);
 
-    if(print==1){
+    if(print>=2){
         printf("Matriz D:\n");
         printMatriz(D, m);
     }
@@ -60,10 +64,11 @@ void paralelo(int m){
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
     time_total_m+=time_total;
-    if(print==1){
+    if(print>=2){
         printf("Soma: %.2f\n", soma);
     }
-    printf("Tempo de soma: %.2f\n", time_total);
+    if(print>=1)
+        printf("Tempo de soma: %f\n", time_total);
 
     printf("Tempo total: %.2f\n", time_total_m);
 }
@@ -82,9 +87,10 @@ void sequencial(int m){
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
     time_total_m+=time_total;
-    printf("Tempo de inicialização: %f\n", time_total);
+    if(print>=1)
+        printf("Tempo de inicialização: %f\n", time_total);
 
-    if(print==1){
+    if(print>=2){
         printf("Matriz A:\n");
         printMatriz(A, m);
         printf("\nMatriz B: \n");
@@ -97,9 +103,10 @@ void sequencial(int m){
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
     time_total_m+=time_total;
-    printf("Tempo de quadrado: %f\n", time_total);
+    if(print>=1)
+        printf("Tempo de quadrado: %f\n", time_total);
     
-    if(print==1){
+    if(print>=2){
         printf("Matriz A quadrada:\n");
         printMatriz(A, m);
         printf("\nMatriz B quadrada: \n");
@@ -111,9 +118,10 @@ void sequencial(int m){
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
     time_total_m+=time_total;
-    printf("Tempo de diferença: %f\n", time_total);
+    if(print>=1)
+        printf("Tempo de diferença: %f\n", time_total);
 
-    if(print==1){
+    if(print>=2){
         printf("Matriz D:\n");
         printMatriz(D, m);
     }
@@ -123,10 +131,11 @@ void sequencial(int m){
     time_end = omp_get_wtime();
     time_total = time_end - time_start;
     time_total_m+=time_total;
-    if(print){
+    if(print>=2){
         printf("\nSoma: %.2f\n", somaV);
     }
-    printf("Tempo de soma: %f\n", time_total); 
+    if(print>=1)
+        printf("Tempo de soma: %f\n", time_total);
 
     printf("Tempo total: %.2f\n", time_total_m);
 }
