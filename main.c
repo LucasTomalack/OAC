@@ -141,10 +141,15 @@ void sequencial(int m){
 }
 
 int main(int argc, char const *argv[]){
-    if(argc != 3){
+    if(argc < 3){
         printf("Usage: %s <linhas | colunas> <a | s | p>\n", argv[0]);
         return 1;
     }
+    if(argc == 4){
+        num_threads = atoi(argv[3]);
+    }
+    else num_threads = 1;
+
 
     srand(clock());
 

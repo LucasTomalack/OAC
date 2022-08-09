@@ -67,7 +67,7 @@ void printMatriz(double **matriz, int m){
 
 //PARALELO
 void preencheParalelo(double** matriz,int m){
-  omp_set_num_threads(NUM_THREADS);
+  omp_set_num_threads(num_threads);
   int i,j;
   unsigned seed;
   #pragma omp parallel shared(i,matriz) private(j,seed)
@@ -83,7 +83,7 @@ void preencheParalelo(double** matriz,int m){
 }       
 
 void quadradoParalelo(double **matriz, int m){
-  omp_set_num_threads(NUM_THREADS);
+  omp_set_num_threads(num_threads);
 
   int i,j;
   #pragma omp parallel shared(matriz, i) private(j)
@@ -99,7 +99,7 @@ void quadradoParalelo(double **matriz, int m){
 }
 
 void diferencaParalelo(double **m1, double **m2, double **m3, int m){
-  omp_set_num_threads(NUM_THREADS);
+  omp_set_num_threads(num_threads);
 
   int i,j;
   #pragma omp parallel shared(m1,m2,m3,i)
@@ -114,7 +114,7 @@ void diferencaParalelo(double **m1, double **m2, double **m3, int m){
 }
 
 double somaParalelo(double **m3,int m){
-  omp_set_num_threads(NUM_THREADS);
+  omp_set_num_threads(num_threads);
 
   double soma = 0;
   int i,j;

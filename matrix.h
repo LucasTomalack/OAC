@@ -16,8 +16,7 @@ void diferenca(double **m1, double **m2, double **m3, int m);
 double soma(double **m3, int m);
 
 // PARALELO
-#define NUM_THREADS 4
-
+unsigned int num_threads;
 void preencheParalelo(double** matriz, int m);
 
 void quadradoParalelo(double **matriz, int m);
